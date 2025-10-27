@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,7 +18,6 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'admin' => (boolean) $this->is_admin,
-            'posts' => PostResource::collection($this->posts)
         ];
     }
 }
