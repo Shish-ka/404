@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Abort
+class Admin
 {
     /**
      * Handle an incoming request.
@@ -15,13 +16,11 @@ class Abort
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $response =$next($request);
-        if ($response->getStatusCode() == 404){
-        return response()->json([
-        "message" => "Not found",
-        "code" => 404
-        ], 404);
-    }
-    return $next($request);
+        if(!Auth::user()->is_admin)
+        {
+            return response()->json(['error' => 'You are not admin'], 401);
+        }
+        
+        return $next($request);
     }
 }
